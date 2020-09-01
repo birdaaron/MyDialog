@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="MyDialog_black_overlay">#57000000</color>
+    <color name="MyDialog_black_transparent">#60000000</color>
 </resources>

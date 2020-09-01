@@ -19,7 +19,6 @@ public class ViewHolder implements Holder
     private int backgroundResourceId;
     private FrameLayout header;
     private FrameLayout footer;
-
     public ViewHolder(int contentResourceId)
     {
         this.contentResourceId = contentResourceId;
@@ -41,6 +40,8 @@ public class ViewHolder implements Holder
     {
         this.backgroundResourceId = colorResource;
     }
+
+
 
     @Override
     public View getView(@NonNull LayoutInflater inflater, ViewGroup parent)
