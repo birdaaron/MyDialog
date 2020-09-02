@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.birdaaron.mydialog.holder.Holder;
+import com.birdaaron.mydialog.holder.HolderWithAdapter;
 
 import androidx.annotation.NonNull;
 
@@ -33,7 +35,8 @@ public class MyDialog
         initContent(inflater,
                     builder.getHeader(),
                     builder.getFooter(),
-                    builder.getHolder());
+                    builder.getHolder(),
+                    builder.getAdapter());
         initCanceling(builder.getHolder());
     }
     public static MyDialogBuilder newDialog(@NonNull Context context)
@@ -59,7 +62,7 @@ public class MyDialog
         decorView.removeView(rootView);
 
     }
-    private void initContent(LayoutInflater inflater,View header, View footer, Holder holder)
+    private void initContent(LayoutInflater inflater, View header, View footer, Holder holder, BaseAdapter adapter)
     {
         View content = holder.getView(inflater,rootView);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -70,6 +73,11 @@ public class MyDialog
             holder.setHeader(header);
         if(footer!=null)
             holder.setFooter(footer);
+        if(adapter!=null && holder instanceof HolderWithAdapter)
+        {
+            HolderWithAdapter hwa = (HolderWithAdapter)holder;
+            hwa.setAdpater(adapter);
+        }
         contentContainer.addView(content);
     }
     public void initCanceling(Holder holder)

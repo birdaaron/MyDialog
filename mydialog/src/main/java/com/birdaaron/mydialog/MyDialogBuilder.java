@@ -3,12 +3,14 @@ package com.birdaaron.mydialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
+import android.widget.BaseAdapter;
 
 import com.birdaaron.mydialog.holder.Holder;
 
 public class MyDialogBuilder
 {
     private Holder holder;
+    private BaseAdapter adapter;
     private View header;
     private View footer;
     private int backgroundResource = android.R.color.white;
@@ -42,6 +44,15 @@ public class MyDialogBuilder
     {
         this.backgroundResource = resource;
         return this;
+    }
+    public MyDialogBuilder setAdapter(BaseAdapter adapter)
+    {
+        this.adapter = adapter;
+        return this;
+    }
+
+    public BaseAdapter getAdapter() {
+        return adapter;
     }
 
     public Holder getHolder() {
