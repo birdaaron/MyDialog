@@ -3,6 +3,7 @@ package com.birdaaron.mydialog;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,7 +24,7 @@ public class MyDialog
     private ViewGroup decorView;
     private ViewGroup rootView;
     private MyDialogBuilder builder;
-    private ViewGroup contentContainer;
+    private FrameLayout contentContainer;
     public MyDialog(MyDialogBuilder builder)
     {
         this.builder = builder;
@@ -32,12 +33,17 @@ public class MyDialog
         LayoutInflater inflater = LayoutInflater.from(builder.getContext());
         rootView = (ViewGroup)inflater.inflate(R.layout.dialog,decorView,false);
         contentContainer = rootView.findViewById(R.id.dialog_contentContainer);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(contentContainer.getLayoutParams());
+        layoutParams.gravity = builder.getGravity();
+        contentContainer.setLayoutParams(layoutParams);
         initContent(inflater,
                     builder.getHeader(),
                     builder.getFooter(),
                     builder.getHolder(),
-                    builder.getAdapter());
-        initCanceling(builder.getHolder());
+                    builder.getAdapter(),
+                    builder.getMargin(),
+                    builder.getPadding());
+        initCanceling();
     }
     public static MyDialogBuilder newDialog(@NonNull Context context)
     {
@@ -62,13 +68,18 @@ public class MyDialog
         decorView.removeView(rootView);
 
     }
-    private void initContent(LayoutInflater inflater, View header, View footer, Holder holder, BaseAdapter adapter)
+    private void initContent(LayoutInflater inflater, View header, View footer, Holder holder, BaseAdapter adapter,
+                             int[] margin, int[] padding)
     {
         View content = holder.getView(inflater,rootView);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
         );
+        params.setMargins(margin[0],margin[1],margin[2],margin[3]);
         content.setLayoutParams(params);
+        holder.setPadding(padding[0],padding[1],padding[2],padding[3]);
+        content.setBackgroundResource(builder.getBackgroundResource());
+
         if(header!=null)
             holder.setHeader(header);
         if(footer!=null)
@@ -80,7 +91,7 @@ public class MyDialog
         }
         contentContainer.addView(content);
     }
-    public void initCanceling(Holder holder)
+    public void initCanceling()
     {
         rootView.setOnTouchListener(new View.OnTouchListener()
         {

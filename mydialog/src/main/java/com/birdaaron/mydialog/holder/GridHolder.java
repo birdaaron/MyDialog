@@ -1,29 +1,34 @@
 package com.birdaaron.mydialog.holder;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.widget.GridView;
+import android.widget.ListView;
 
 import com.birdaaron.mydialog.R;
 
-import java.util.logging.Handler;
-
 import androidx.annotation.NonNull;
 
-public class ViewHolder implements Holder
+public class GridHolder implements HolderWithAdapter
 {
-    private int contentResourceId;
     private int backgroundResourceId;
     private FrameLayout header;
     private FrameLayout footer;
-    private FrameLayout contentContainer;
-    public ViewHolder(int contentResourceId)
+    private GridView contentContainer;
+    private int columnNum = 0;
+    public GridHolder(int columnNum)
     {
-        this.contentResourceId = contentResourceId;
+        this.columnNum = columnNum;
     }
+    @Override
+    public void setAdpater(@NonNull BaseAdapter adpater)
+    {
+        contentContainer.setAdapter(adpater);
+    }
+
     @Override
     public void setHeader(View header)
     {
@@ -42,18 +47,15 @@ public class ViewHolder implements Holder
         this.backgroundResourceId = colorResource;
     }
 
-
-
     @Override
     public View getView(@NonNull LayoutInflater inflater, ViewGroup parent)
     {
-        View view = inflater.inflate(R.layout.holder_view,parent,false);
+        View view = inflater.inflate(R.layout.holder_grid,parent,false);
+        header = view.findViewById(R.id.holder_grid_header);
+        footer = view.findViewById(R.id.holder_grid_footer);
         view.setBackgroundResource(backgroundResourceId);
-        header = view.findViewById(R.id.holder_view_header);
-        footer = view.findViewById(R.id.holder_view_footer);
-        contentContainer = view.findViewById(R.id.holder_view_container);
-        View content = inflater.inflate(contentResourceId,parent,false);//?parent
-        contentContainer.addView(content);
+        contentContainer = view.findViewById(R.id.holder_grid_container);
+        contentContainer.setNumColumns(columnNum);
         return view;
     }
 

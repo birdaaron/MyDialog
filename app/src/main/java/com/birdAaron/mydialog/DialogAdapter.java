@@ -1,4 +1,4 @@
-package com.birdAaron.mydialog.adapter;
+package com.birdAaron.mydialog;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,14 +9,16 @@ import android.widget.TextView;
 
 import com.birdAaron.mydialog.R;
 
-public class ListAdapter extends BaseAdapter
+public class DialogAdapter extends BaseAdapter
 {
     private int count = 0;
     private Context context;
-    public ListAdapter(Context context,int count)
+    private boolean isGrid = false;
+    public DialogAdapter(Context context, int count,boolean isGrid)
     {
         this.context = context;
         this.count = count;
+        this.isGrid = isGrid;
     }
     @Override
     public int getCount() {
@@ -34,8 +36,14 @@ public class ListAdapter extends BaseAdapter
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_list,parent,false);
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
+        int layoutResource;
+        if(isGrid)
+            layoutResource = R.layout.item_grid;
+        else
+            layoutResource = R.layout.item_list;
+        View view = LayoutInflater.from(context).inflate(layoutResource,parent,false);
         TextView textView = view.findViewById(R.id.item_list_text);
         textView.setText("item"+position);
         return view;

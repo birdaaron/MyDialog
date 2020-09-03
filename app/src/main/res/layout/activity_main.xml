@@ -9,52 +9,54 @@
 
 
     <RadioGroup
+        android:id="@+id/sample_holder_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/sample_holder_view"
             android:layout_weight="0.3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ViewHolder" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/sample_holder_list"
             android:layout_weight="0.3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ListHolder" />
         <RadioButton
-            android:id="@+id/radioButto3"
+            android:id="@+id/sample_holder_grid"
             android:layout_weight="0.3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ListHolder" />
+            android:text="GridHolder" />
     </RadioGroup>
 
     <RadioGroup
+        android:id="@+id/sample_position_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/radioButton3"
+            android:id="@+id/sample_position_bottom"
             android:layout_weight="0.3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bottom" />
 
         <RadioButton
-            android:id="@+id/radioButton4"
+            android:id="@+id/sample_position_center"
             android:layout_weight="0.3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Center" />
 
         <RadioButton
-            android:id="@+id/radioButton5"
+            android:id="@+id/sample_position_top"
             android:layout_weight="0.3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,21 +69,21 @@
         android:orientation="horizontal">
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/sample_checkBox_show_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="ShowHeader" />
 
         <CheckBox
-            android:id="@+id/checkBox3"
+            android:id="@+id/sample_checkBox_show_footer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="ShowFooter" />
 
         <CheckBox
-            android:id="@+id/checkBox2"
+            android:id="@+id/sample_checkBox_expanded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -94,13 +96,13 @@
         android:orientation="horizontal">
 
         <CheckBox
-            android:id="@+id/checkBox4"
+            android:id="@+id/sample_checkBox_fixed_header"
             android:layout_width="144dp"
             android:layout_height="wrap_content"
             android:text="FixedHeader" />
 
         <CheckBox
-            android:id="@+id/checkBox5"
+            android:id="@+id/sample_checkBox_fixed_footer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="FixedFooter" />
@@ -112,30 +114,50 @@
         android:orientation="horizontal">
 
         <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:text="List count" />
+
+        <EditText
+            android:id="@+id/sample_editText_count"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="12"
+            android:ems="10"
+            android:inputType="number" />
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="List count" />
+                android:text="grid columns" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/sample_editText_column"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:text="3"
                 android:inputType="number" />
         </LinearLayout>
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
 

@@ -44,13 +44,21 @@ public class ListHolder implements HolderWithAdapter
     }
 
     @Override
-    public View getView(@NonNull LayoutInflater inflater, ViewGroup parent) {
+    public View getView(@NonNull LayoutInflater inflater, ViewGroup parent)
+    {
         View view = inflater.inflate(R.layout.holder_list,parent,false);
         header = view.findViewById(R.id.holder_list_header);
         footer = view.findViewById(R.id.holder_list_footer);
         view.setBackgroundResource(backgroundResourceId);
         contentContainer = view.findViewById(R.id.holder_list_container);
-
         return view;
     }
+
+    @Override
+    public void setPadding(int left, int top, int right, int bottom)
+    {
+        contentContainer.setPadding(left,top,right,bottom);
+    }
+
+
 }
