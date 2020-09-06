@@ -1,5 +1,6 @@
 package com.birdaaron.mydialog.holder;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,7 @@ import com.birdaaron.mydialog.R;
 
 import androidx.annotation.NonNull;
 
-public class GridHolder implements HolderWithAdapter
+public class GridHolder  implements HolderWithAdapter
 {
     private int backgroundResourceId;
     private FrameLayout header;
@@ -63,6 +64,11 @@ public class GridHolder implements HolderWithAdapter
     public void setPadding(int left, int top, int right, int bottom)
     {
         contentContainer.setPadding(left,top,right,bottom);
+    }
+
+    @Override
+    public View getInflatedView() {
+        return contentContainer;
     }
 
 

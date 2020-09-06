@@ -8,8 +8,10 @@ import android.widget.BaseAdapter;
 
 import com.birdaaron.mydialog.holder.Holder;
 
-public class MyDialogBuilder
-{
+import java.util.Arrays;
+
+public class MyDialogBuilder {
+    private static final int INVALID = -1;
     private int[] margin = new int[4];
     private int[] padding = new int[4];
     private Holder holder;
@@ -19,56 +21,56 @@ public class MyDialogBuilder
     private int backgroundResource = android.R.color.white;
     private int gravity = Gravity.CENTER;
     private Context context;
-    public MyDialogBuilder(Context context)
-    {
+
+    public MyDialogBuilder(Context context) {
         this.context = context;
+        Arrays.fill(margin, INVALID);
     }
 
-    public MyDialog create()
-    {
+    public MyDialog create() {
         holder.setBackground(backgroundResource);
         return new MyDialog(this);
     }
-    public MyDialogBuilder setContentHolder(Holder holder)
-    {
+
+    public MyDialogBuilder setContentHolder(Holder holder) {
         this.holder = holder;
         return this;
     }
-    public MyDialogBuilder setHeader(View header)
-    {
+
+    public MyDialogBuilder setHeader(View header) {
         this.header = header;
         return this;
     }
-    public MyDialogBuilder setFooter(View footer)
-    {
+
+    public MyDialogBuilder setFooter(View footer) {
         this.footer = footer;
         return this;
     }
-    public MyDialogBuilder setBackground(int resource)
-    {
+
+    public MyDialogBuilder setBackground(int resource) {
         this.backgroundResource = resource;
         return this;
     }
-    public MyDialogBuilder setAdapter(BaseAdapter adapter)
-    {
+
+    public MyDialogBuilder setAdapter(BaseAdapter adapter) {
         this.adapter = adapter;
         return this;
     }
-    public MyDialogBuilder setGravity(int gravity)
-    {
+
+    public MyDialogBuilder setGravity(int gravity) {
         this.gravity = gravity;
         return this;
     }
-    public MyDialogBuilder setMargin(int left ,int top,int right,int bottom)
-    {
+
+    public MyDialogBuilder setMargin(int left, int top, int right, int bottom) {
         margin[0] = left;
         margin[1] = top;
         margin[2] = right;
         margin[3] = bottom;
         return this;
     }
-    public MyDialogBuilder setPadding(int left ,int top,int right,int bottom)
-    {
+
+    public MyDialogBuilder setPadding(int left, int top, int right, int bottom) {
         padding[0] = left;
         padding[1] = top;
         padding[2] = right;
@@ -76,8 +78,24 @@ public class MyDialogBuilder
         return this;
     }
 
-    public int[] getMargin() {
+    public int[] getMargin()
+    {
+        int minimumMargin = context.getResources().getDimensionPixelSize(R.dimen.default_center_margin);
+        for (int i = 0; i < 4; i++)
+            margin[i] = initMargin(gravity,margin[i],minimumMargin);
         return margin;
+    }
+
+    private int initMargin(int gravity, int margin, int minimumMargin)
+    {
+        switch (gravity)
+        {
+            case Gravity.CENTER:
+                return (margin==INVALID) ? minimumMargin : margin;
+            default:
+                return (margin==INVALID) ? 0 : margin;
+        }
+
     }
 
     public int[] getPadding() {

@@ -3,19 +3,23 @@ package com.birdaaron.mydialog;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.birdaaron.mydialog.holder.Holder;
 import com.birdaaron.mydialog.holder.HolderWithAdapter;
+import com.birdaaron.mydialog.listener.ExpandedTouchListener;
 
 import androidx.annotation.NonNull;
 
@@ -44,6 +48,7 @@ public class MyDialog
                     builder.getMargin(),
                     builder.getPadding());
         initCanceling();
+        initExpandAnimation(activity,builder.getGravity(),builder.getHolder());
     }
     public static MyDialogBuilder newDialog(@NonNull Context context)
     {
@@ -90,6 +95,7 @@ public class MyDialog
             hwa.setAdpater(adapter);
         }
         contentContainer.addView(content);
+
     }
     public void initCanceling()
     {
@@ -122,6 +128,32 @@ public class MyDialog
                 return false;
             }
         });
+    }
+    private void initExpandAnimation(Activity activity,int gravity,Holder holder)
+    {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        int displayHeight = display.getHeight() - getStatusBarHeight(activity);
 
+        int defaultHeight = (displayHeight * 2) / 5;
+
+
+        final View view = holder.getInflatedView();
+        if (!(view instanceof AbsListView)) {
+            return;
+        }
+        final AbsListView absListView = (AbsListView) view;
+
+        view.setOnTouchListener(new ExpandedTouchListener(
+                activity, absListView, contentContainer, gravity, displayHeight, defaultHeight
+        ));
+    }
+    private int getStatusBarHeight(Context context)
+    {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 }

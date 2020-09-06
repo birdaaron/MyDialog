@@ -63,5 +63,10 @@ public class ViewHolder implements Holder
         contentContainer.setPadding(left,top,right,bottom);
     }
 
+    @Override
+    public View getInflatedView() {
+        return contentContainer;
+    }
+
 
 }

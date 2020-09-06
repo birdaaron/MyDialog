@@ -3,6 +3,7 @@ package com.birdAaron.mydialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity
                     .setContentHolder(holder)
                     .setHeader(header)
                     .setFooter(footer)
-                    .setMargin(10,10,10,10)
+                    //.setMargin(10,10,10,10)
                     .setGravity(gravity)
                     .setAdapter(adapter)
                     .create();

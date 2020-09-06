@@ -60,5 +60,10 @@ public class ListHolder implements HolderWithAdapter
         contentContainer.setPadding(left,top,right,bottom);
     }
 
+    @Override
+    public View getInflatedView() {
+        return contentContainer;
+    }
+
 
 }
