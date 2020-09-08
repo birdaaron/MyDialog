@@ -28,6 +28,9 @@ public class MyDialogBuilder {
     private BaseAdapter adapter;
     private View header;
     private View footer;
+    private boolean isHeaderFixed;
+    private boolean isFooterFixed;
+    private boolean isExpanded;
     private int backgroundResource = android.R.color.white;
     private int gravity = Gravity.CENTER;
     private Context context;
@@ -47,14 +50,27 @@ public class MyDialogBuilder {
         return this;
     }
 
-    public MyDialogBuilder setHeader(View header) {
+    public MyDialogBuilder setHeader(View header,boolean isHeaderFixed) {
         this.header = header;
+        this.isHeaderFixed = isHeaderFixed;
         return this;
     }
 
-    public MyDialogBuilder setFooter(View footer) {
+    public MyDialogBuilder setFooter(View footer,boolean isFooterFixed) {
         this.footer = footer;
+        this.isFooterFixed = isFooterFixed;
         return this;
+    }
+    public boolean isExpanded()
+    {
+        return isExpanded;
+    }
+    public boolean isHeaderFixed() {
+        return isHeaderFixed;
+    }
+
+    public boolean isFooterFixed() {
+        return isFooterFixed;
     }
 
     public MyDialogBuilder setBackground(int resource) {
@@ -71,7 +87,11 @@ public class MyDialogBuilder {
         this.gravity = gravity;
         return this;
     }
-
+    public MyDialogBuilder setExpanded(boolean isExpanded)
+    {
+        this.isExpanded = isExpanded;
+        return this;
+    }
     public MyDialogBuilder setMargin(int left, int top, int right, int bottom) {
         margin[0] = left;
         margin[1] = top;

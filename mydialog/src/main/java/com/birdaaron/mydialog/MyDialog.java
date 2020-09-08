@@ -37,19 +37,19 @@ public class MyDialog
         LayoutInflater inflater = LayoutInflater.from(builder.getContext());
         rootView = (ViewGroup)inflater.inflate(R.layout.dialog,decorView,false);
         contentContainer = rootView.findViewById(R.id.dialog_contentContainer);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(contentContainer.getLayoutParams());
-        layoutParams.height = builder.getDefaultHeight();
-        layoutParams.gravity = builder.getGravity();
-        contentContainer.setLayoutParams(layoutParams);
         initContent(inflater,
                     builder.getHeader(),
                     builder.getFooter(),
+                    builder.isHeaderFixed(),
+                    builder.isFooterFixed(),
                     builder.getHolder(),
                     builder.getAdapter(),
                     builder.getMargin(),
                     builder.getPadding());
+        initContentLayout(builder.isExpanded());
         initCanceling();
-        initExpandAnimation(activity,builder.getGravity(),builder.getHolder(),builder.getExpandedMaximumHeight());
+        if(builder.isExpanded())
+            initExpandAnimation(activity,builder.getGravity(),builder.getHolder(),builder.getExpandedMaximumHeight());
     }
     public static MyDialogBuilder newDialog(@NonNull Context context)
     {
@@ -57,7 +57,6 @@ public class MyDialog
     }
     public boolean isShowing()
     {
-
         return decorView.findViewById(R.id.dialog_outMost)!=null;
     }
     public void show()
@@ -74,8 +73,18 @@ public class MyDialog
         decorView.removeView(rootView);
 
     }
-    private void initContent(LayoutInflater inflater, View header, View footer, Holder holder, BaseAdapter adapter,
-                             int[] margin, int[] padding)
+    private void initContentLayout(boolean isExpanded)
+    {
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(contentContainer.getLayoutParams());
+        if(isExpanded)
+            layoutParams.height = builder.getDefaultHeight();
+        else
+            layoutParams.height = builder.getExpandedMaximumHeight();
+        layoutParams.gravity = builder.getGravity();
+        contentContainer.setLayoutParams(layoutParams);
+    }
+    private void initContent(LayoutInflater inflater, View header, View footer,boolean isHeaderFixed,boolean isFooterFixed,
+                             Holder holder, BaseAdapter adapter, int[] margin, int[] padding)
     {
         View content = holder.getView(inflater,rootView);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
@@ -87,9 +96,9 @@ public class MyDialog
         content.setBackgroundResource(builder.getBackgroundResource());
 
         if(header!=null)
-            holder.setHeader(header);
+            holder.setHeader(header,isHeaderFixed);
         if(footer!=null)
-            holder.setFooter(footer);
+            holder.setFooter(footer,isFooterFixed);
         if(adapter!=null && holder instanceof HolderWithAdapter)
         {
             HolderWithAdapter hwa = (HolderWithAdapter)holder;

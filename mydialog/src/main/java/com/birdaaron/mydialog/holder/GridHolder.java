@@ -53,13 +53,13 @@ public class GridHolder  implements HolderWithAdapter
         return (count-1)/columnNum +1 ;
     }
     @Override
-    public void setHeader(View header)
+    public void setHeader(View header,boolean isFixed)
     {
         this.header.addView(header);
     }
 
     @Override
-    public void setFooter(View footer)
+    public void setFooter(View footer,boolean isFixed)
     {
         this.footer.addView(footer);
     }

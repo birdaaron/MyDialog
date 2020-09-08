@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity
     private EditText count,gridColumn;
     private Holder holder;
     private int gravity;
-    private boolean isHeaderShown,isFooterShown,isHeaderFixed,isFooterFixed,isExpanded,isGrid;
+    private boolean isHeaderFixed,isFooterFixed,isExpanded,isGrid;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -90,14 +90,26 @@ public class MainActivity extends AppCompatActivity
                 header = null;
             if(!showFooter.isChecked())
                 footer = null;
-
+            if(fixedHeader.isChecked())
+                isHeaderFixed = true;
+            else
+                isHeaderFixed = false;
+            if(fixedFooter.isChecked())
+                isFooterFixed = true;
+            else
+                isFooterFixed = true;
+            if(expanded.isChecked())
+                isExpanded = true;
+            else
+                isExpanded = false;
             final DialogAdapter adapter = new DialogAdapter(MainActivity.this,
                     Integer.parseInt(count.getText().toString()),isGrid);
 
             MyDialog myDialog = MyDialog.newDialog(MainActivity.this)
                     .setContentHolder(holder)
-                    .setHeader(header)
-                    .setFooter(footer)
+                    .setHeader(header,isHeaderFixed)
+                    .setFooter(footer,isFooterFixed)
+                    .setExpanded(isExpanded)
                     //.setMargin(10,10,10,10)
                     .setGravity(gravity)
                     .setAdapter(adapter)

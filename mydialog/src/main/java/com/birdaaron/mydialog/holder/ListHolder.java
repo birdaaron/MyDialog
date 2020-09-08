@@ -45,15 +45,22 @@ public class ListHolder implements HolderWithAdapter
         return contentContainer.getAdapter().getCount();
     }
     @Override
-    public void setHeader(View header)
+    public void setHeader(View header,boolean isFixed)
     {
-        this.header.addView(header);
+        if(isFixed)
+            this.header.addView(header);
+        else
+            contentContainer.addHeaderView(header);
     }
 
     @Override
-    public void setFooter(View footer)
+    public void setFooter(View footer,boolean isFixed)
     {
-        this.footer.addView(footer);
+        if(isFixed)
+            this.footer.addView(footer);
+        else
+            contentContainer.addHeaderView(footer);
+
     }
 
     @Override
