@@ -1,6 +1,7 @@
 package com.birdaaron.mydialog.holder;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,27 @@ public class GridHolder  implements HolderWithAdapter
         contentContainer.setAdapter(adpater);
     }
 
+    @Override
+    public int getItemTotalHeight()
+    {
+        int totalHeight = 0;
+        BaseAdapter adapter = (BaseAdapter)contentContainer.getAdapter();
+        if(adapter.getCount()!=0)
+        {
+            View mView = adapter.getView(0,null,contentContainer);
+             mView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                totalHeight = mView.getMeasuredHeight() * getRowNum();
+        }
+
+        return totalHeight;
+    }
+    public int getRowNum()
+    {
+        int count = contentContainer.getCount();
+        //向上取整
+        return (count-1)/columnNum +1 ;
+    }
     @Override
     public void setHeader(View header)
     {

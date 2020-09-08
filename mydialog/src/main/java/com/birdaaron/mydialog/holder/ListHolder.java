@@ -1,5 +1,6 @@
 package com.birdaaron.mydialog.holder;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,24 @@ public class ListHolder implements HolderWithAdapter
         contentContainer.setAdapter(adpater);
     }
 
+    @Override
+    public int getItemTotalHeight()
+    {
+        int totalHeight = 0;
+        BaseAdapter adapter = (BaseAdapter)contentContainer.getAdapter();
+        for(int i = 0;i<adapter.getCount();i++)
+        {
+            View mView = adapter.getView(i,null,contentContainer);
+            mView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                          View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            totalHeight += mView.getMeasuredHeight();
+        }
+        return totalHeight;
+    }
+    public int getCount()
+    {
+        return contentContainer.getAdapter().getCount();
+    }
     @Override
     public void setHeader(View header)
     {

@@ -1,6 +1,7 @@
 package com.birdaaron.mydialog.listener;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -26,12 +27,12 @@ public class ExpandedTouchListener implements View.OnTouchListener
     private FrameLayout.LayoutParams params;
 
     public ExpandedTouchListener(Context context, AbsListView absListView, View container, int gravity,
-                                 int displayHeight, int defaultHeight)
+                                 int maximumHeight, int defaultHeight)
     {
         this.absListView = absListView;
         this.contentContainer = container;
         this.gravity = gravity;
-        this.displayHeight = displayHeight;
+        this.displayHeight = maximumHeight;
         this.defaultHeight = defaultHeight;
         this.params = (FrameLayout.LayoutParams) container.getLayoutParams();
 
@@ -88,6 +89,7 @@ public class ExpandedTouchListener implements View.OnTouchListener
             newHeight = displayHeight;
         if(newHeight<defaultHeight)
             newHeight = defaultHeight;
+
         params.height = newHeight;
         contentContainer.setLayoutParams(params);
 
@@ -96,7 +98,7 @@ public class ExpandedTouchListener implements View.OnTouchListener
     private void onTouchUp(View view,MotionEvent event)
     {
         y = -1;
-        if(!touchUp&&params.height>defaultHeight*2)
+        if(!touchUp&&params.height>displayHeight-200)
         {
             animateContent(displayHeight, new SimpleAnimationListener()
             {

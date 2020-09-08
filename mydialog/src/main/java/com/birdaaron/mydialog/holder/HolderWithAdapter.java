@@ -7,4 +7,5 @@ import androidx.annotation.NonNull;
 public interface HolderWithAdapter extends Holder
 {
     void setAdpater(@NonNull BaseAdapter adpater);
+    int getItemTotalHeight();
 }

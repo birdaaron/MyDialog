@@ -38,6 +38,7 @@ public class MyDialog
         rootView = (ViewGroup)inflater.inflate(R.layout.dialog,decorView,false);
         contentContainer = rootView.findViewById(R.id.dialog_contentContainer);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(contentContainer.getLayoutParams());
+        layoutParams.height = builder.getDefaultHeight();
         layoutParams.gravity = builder.getGravity();
         contentContainer.setLayoutParams(layoutParams);
         initContent(inflater,
@@ -48,7 +49,7 @@ public class MyDialog
                     builder.getMargin(),
                     builder.getPadding());
         initCanceling();
-        initExpandAnimation(activity,builder.getGravity(),builder.getHolder());
+        initExpandAnimation(activity,builder.getGravity(),builder.getHolder(),builder.getExpandedMaximumHeight());
     }
     public static MyDialogBuilder newDialog(@NonNull Context context)
     {
@@ -77,7 +78,7 @@ public class MyDialog
                              int[] margin, int[] padding)
     {
         View content = holder.getView(inflater,rootView);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
         );
         params.setMargins(margin[0],margin[1],margin[2],margin[3]);
@@ -129,13 +130,9 @@ public class MyDialog
             }
         });
     }
-    private void initExpandAnimation(Activity activity,int gravity,Holder holder)
+    private void initExpandAnimation(Activity activity,int gravity,Holder holder,int maximumHeight)
     {
-        Display display = activity.getWindowManager().getDefaultDisplay();
-        int displayHeight = display.getHeight() - getStatusBarHeight(activity);
-
-        int defaultHeight = (displayHeight * 2) / 5;
-
+        int defaultHeight = builder.getDefaultHeight();
 
         final View view = holder.getInflatedView();
         if (!(view instanceof AbsListView)) {
@@ -144,16 +141,8 @@ public class MyDialog
         final AbsListView absListView = (AbsListView) view;
 
         view.setOnTouchListener(new ExpandedTouchListener(
-                activity, absListView, contentContainer, gravity, displayHeight, defaultHeight
+                activity, absListView, contentContainer, gravity, maximumHeight, defaultHeight
         ));
     }
-    private int getStatusBarHeight(Context context)
-    {
-        int result = 0;
-        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = context.getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
+
 }

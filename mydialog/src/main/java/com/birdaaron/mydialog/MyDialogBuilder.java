@@ -1,14 +1,24 @@
 package com.birdaaron.mydialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
+import android.widget.GridView;
+import android.widget.ListView;
 
+import com.birdaaron.mydialog.holder.GridHolder;
 import com.birdaaron.mydialog.holder.Holder;
+import com.birdaaron.mydialog.holder.ListHolder;
+import com.birdaaron.mydialog.holder.ViewHolder;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class MyDialogBuilder {
     private static final int INVALID = -1;
@@ -78,26 +88,100 @@ public class MyDialogBuilder {
         return this;
     }
 
-    public int[] getMargin()
-    {
+    public int[] getMargin() {
         int minimumMargin = context.getResources().getDimensionPixelSize(R.dimen.default_center_margin);
         for (int i = 0; i < 4; i++)
-            margin[i] = initMargin(gravity,margin[i],minimumMargin);
+            margin[i] = initMargin(gravity, margin[i], minimumMargin);
         return margin;
     }
 
-    private int initMargin(int gravity, int margin, int minimumMargin)
-    {
-        switch (gravity)
-        {
+    private int initMargin(int gravity, int margin, int minimumMargin) {
+        switch (gravity) {
             case Gravity.CENTER:
-                return (margin==INVALID) ? minimumMargin : margin;
+                return (margin == INVALID) ? minimumMargin : margin;
             default:
-                return (margin==INVALID) ? 0 : margin;
+                return (margin == INVALID) ? 0 : margin;
         }
 
     }
+    private int initMaximunmHeight(int maximumHeight)
+    {
+        if(gravity==Gravity.CENTER)
+        {
+            int centerMargin = context.getResources().getDimensionPixelSize(R.dimen.default_center_margin);
+            maximumHeight+=(2*centerMargin);
+        }
+        if(header!=null)
+        {
+            header.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            maximumHeight+=header.getMeasuredHeight();
+        }
+        if(footer!=null)
+        {
+            footer.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            maximumHeight+=footer.getMeasuredHeight();
+         }
+        return maximumHeight;
+    }
+    public int getExpandedMaximumHeight()
+    {
+        int maximumHeight = 0;
+        if(holder instanceof ListHolder)
+        {
+            ListHolder listHolder = (ListHolder)holder;
+            int count = listHolder.getCount();
+            if(count>2)
+            {
+                maximumHeight = listHolder.getItemTotalHeight();
+                maximumHeight = initMaximunmHeight(maximumHeight);
+            }
+            else
+                maximumHeight = getDefaultHeight();
+            if(maximumHeight>getDisplayHeight())
+                maximumHeight = getDisplayHeight();
+        }
+        if(holder instanceof GridHolder)
+        {
 
+            GridHolder gridHolder = (GridHolder)holder;
+            int row = gridHolder.getRowNum();
+            Log.d("getExpandedMaximumHeight: ", String.valueOf(row));
+            if(row > 1)
+            {
+                maximumHeight = gridHolder.getItemTotalHeight();
+                maximumHeight = initMaximunmHeight(maximumHeight);
+            }
+            else
+                maximumHeight = getDefaultHeight();
+            if(maximumHeight>getDisplayHeight())
+                maximumHeight = getDisplayHeight();
+        }
+        return maximumHeight;
+    }
+    public int getDefaultHeight()
+    {
+        int displayHeight = getDisplayHeight();//
+        //displayHeight = holder.getInflatedView().getHeight();
+        return (displayHeight * 2) / 5;
+    }
+
+    public int getDisplayHeight()
+    {
+        Activity activity = (Activity) context;
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        return display.getHeight() - getStatusBarHeight(activity);
+    }
+    private int getStatusBarHeight(Context context)
+    {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
     public int[] getPadding() {
         return padding;
     }
